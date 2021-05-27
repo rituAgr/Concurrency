@@ -16,7 +16,8 @@ is called User Thread.
    * When all the applications user thread dies then the main user thread die & application stops.
 2. Daemon Thread: This is thread which is suppose to do some task in background. Monitoring, Logging
 are the kind of work they are most fit for. 
-   * So, in case of daemon thread, it dies as soon as all other user thread (except the main thread) die
+   * So, in case of daemon thread, it dies as soon as all other user thread (except the main thread) die. 
+   And then main thread dies. It is good if you don't want main application hanging in for this thread
    * A thread a made daemon by setting true as follow - 
      ```
         Thread a = new Thread(r);
@@ -33,9 +34,11 @@ ____
 ____
 
 #### Library Function for Thread
-  * start()
-  * join()
-  * sleep()
+  * start(): Causes this thread to begin execution; the Java Virtual Machine calls the run method of this thread
+  * join(): It wait for current thread to die before executing the next statement.[doc](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html#join())
+   ![dia](./docs/images/join.png)
+  * sleep(): it causes the thread to stop for given duration. [doc](https://docs.oracle.com/javase/7/docs/api/java/lang/Thread.html#sleep(long))
+  * interrupt() : Gracefully stops the thread. Implementation is in thread-interrupt branch.
     
   * __*Any function or method call that causes interrupt for thread to run throws InterruptedException. This need to caught in try catch*__
 
@@ -44,5 +47,6 @@ ___
 #### Docs /Links
 - [Java brains Concurrency Course](https://www.javabrains.io/courses/take/java-concurrency/lessons/16805234-understanding-thread-life-cycle)
 - [SDK vs JDK](https://askanydifference.com/difference-between-sdk-and-jdk/#:~:text=SDK%20stands%20for%20software%20development,a%20program%20using%20java%20language.)
+- [Parallelism vs Concurrency](./docs/concurrency_parallism.md)
 
 ____

@@ -24,15 +24,25 @@ public class Main {
         };
 
         Thread statusReporterThread = new Thread(statusReporter);
-        statusReporterThread.setDaemon(true);
         statusReporterThread.start();
 
         while(true) {
             System.out.println("Enter limit for want to check Prime number Count :");
             Scanner sc = new Scanner(System.in);
             int userInput = sc.nextInt();
-            if (userInput==0)
+            if (userInput==0){
+                threads.forEach(thread -> {
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
+                System.out.println("Calculated "+threads.size()+" times\n"+"Now Stopping application");
+                statusReporterThread.interrupt();
                 break;
+            }
+
             Runnable r = () -> {
                 PrimeNumberUtils primeNumberUtils = new PrimeNumberUtils();
                 int primeNumberCounts = primeNumberUtils.getPrimeNumberCounts(userInput);
@@ -42,8 +52,6 @@ public class Main {
             Thread t = new Thread(r);
 
             threads.add(t);
-            //This makes thread as Dameon
-//            t.setDaemon(true);
             t.start();
         }
     }
